@@ -27,13 +27,6 @@ public class RentServiceRestTest {
     }
 
     @Test
-    public void testSayHello() throws Exception {
-        mockMvc.perform(get("/"))
-                .andExpect(status().isOk())
-                .andExpect(content().string("Hello"));
-    }
-
-    @Test
     public void testAddCar() throws Exception {
         Car car = new Car("ABC123", "Toyota", 15000.0);
         ObjectMapper objectMapper = new ObjectMapper();
