@@ -1,5 +1,8 @@
 # DevOps
 
+# Multi-stage Docker build
+
+https://github.com/charroux/rent/blob/main/MyService/Dockerfile
 
 
 # Collaborer à un projet : le concept du pull request
@@ -66,95 +69,3 @@ git branch -D newcarservice
 git push origin --delete newcarservice
 ```
 
-
-# TD 1 - JUnit
-
-JUnit est un framework de test unitaire pour le langage de programmation Java, créé par Kent Beck et Erich Gamma.
-
-Etudier un exemple de classe de Test : https://junit.org/junit5/docs/current/user-guide/#writing-tests
-
-Etudier l'utilisation des assertions : https://junit.org/junit5/docs/current/user-guide/#writing-tests-assertions
-
-# TP 1 - JUnit
-
-Dans ce TP vous allez écrire le programme de test d'une classe qui vous est donnée :
-https://github.com/charroux/testsLogiciel/blob/main/src/main/java/com/example/demo/data/Voiture.java
-
-Etudiez cette classe et écrivez à la norme JUnit le programme de test. Une ébauche du programme de test ce trouve ici : 
-
-https://github.com/charroux/testsLogiciel/blob/main/src/test/java/com/example/demo/data/VoitureTest.java
-
-ATTENTION ! PENSEZ BIEN A CODER LE PROGRAMME DE TEST DANS UN NOUVELLE BRANCHE COMME INDIQUÉ CI-DESSUS, puis faites une demande pull request.
-
-Les tests qui vont échouer seront affichés chez Github :
-
-<img src="images/build_failed.png" width="500"/>
-
-
-# TD 2 - Spring boot test et Mockito
-
-Etude du framework de test inclus dans les projets Spring boot : https://github.com/charroux/springbootest
-
-Etude du framework de test Mockito: https://github.com/charroux/mockito
-
-# TP 2
-
-## Présentation de l'application
-
-L'application développée sur la base des voitures calcule des statistiques sur les voitures. La base de cette application est une interface : 
-
-https://github.com/charroux/testsLogiciel/blob/main/src/main/java/com/example/demo/service/Statistique.java
-
-Cette interface utilise une classe Echantillon : https://github.com/charroux/testsLogiciel/blob/main/src/main/java/com/example/demo/service/Echantillon.java
-
-Son implantation et donnée : https://github.com/charroux/testsLogiciel/blob/main/src/main/java/com/example/demo/service/StatistiqueImpl.java
-
-Votre tâche consiste à écrire la classe de test en utilisant le framework Mockito : https://github.com/charroux/testsLogiciel/blob/main/src/test/java/com/example/demo/service/StatistiqueTests.java
-
-# TD 2 - MockMvc
-
-MockVvc est un framework de test qui permet de tester un application Web programmé en Java version Spring. 
-Essentiellement, ce framework envoi des requêtes HTTP à un programe Web Java et vérifier que les réponses sont celles attendues.
-
-Comment faire des requêtes : https://docs.spring.io/spring-framework/reference/6.0/testing/spring-mvc-test-framework/server-performing-requests.html
-
-Comment vérifier les résultats des requêtes : https://docs.spring.io/spring-framework/reference/6.0/testing/spring-mvc-test-framework/server-defining-expectations.html
-
-# TP 3 - MockMvc
-
-## Le service Web
-
-L'application de la question précédente est utilisé la un service Web dont voici le code : https://github.com/charroux/testsLogiciel/blob/main/src/main/java/com/example/demo/web/StatistiqueController.java
-
-Votre travail consiste à écrire la classe de test correspondante : https://github.com/charroux/testsLogiciel/blob/main/src/test/java/com/example/demo/web/WebTests.java
-
-```
-curl --header "Content-Type: application/json" \   
-  --request POST \
-  --data '{"marque":"f","prix":100}' \
-  http://localhost:8080/voiture
-```
-
-# TP 4
-
-## Tests de couverture de code
-
-Le script d'intégration coninue qui s'exécute chez Github contient déjà un programme de couverture de code (voir à la fin l'instruction ./gradlew jacocoTestReport) : https://github.com/charroux/testsLogiciel/blob/main/.github/workflows/action.yml
-
-Vérifiez que votre script conient cette instruction et ajoutez-là si ce n'est pas le cas. 
-
-Gradle (l'outil de compilation) requiert un plugin pour générer le rappprt de converture de code. 
-Ce plugin doit être indiqué par l'instruction (id 'org.barfuin.gradle.jacocolog' version '1.0.1') dans le fichier de configuration du projet (en ligne 6) : https://github.com/charroux/testsLogiciel/blob/main/build.gradle
-
-Quand le script d'intégration continue s'exécute le rapport généré contient les résultats de la couverture de code :
-
-<img src="images/jacoco.png" width="500"/>
-
-Ce rapport n'est pas très détaillé et donc pas très facile à exploiter ! Cependant, il est suffisant pour vous rendre compte si vos programmes de tests garantissent une bonne couverture de code. Si ce n'est pas le cas, à vous d'ajouter des cas de tests pour améliorer la couverture de code.
-Si vous souhaitez avec un rapport de couverture de code plus détaillé, vous pouvez lancer le test de couverture sur votre machine via : 
-
-```
-./gradlew jacocoTestReport
-```
-
-Mais encore faut-il que votre machine dispose de Java JDK 17.
