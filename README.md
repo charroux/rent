@@ -51,7 +51,8 @@ A partir de là, vous jouez le rôle d'un chef de projet.
 
 Créer un pull request chez Github en comparant la nouvelle branche avec la votre. 
 C'est un ce moment là qu"un script d'intégration continue va se déclencher chez Github. 
-Goithub trouve le code de ce script dans votre projet : https://github.com/charroux/testsLogiciel/blob/main/.github/workflows/action.yml
+Goithub trouve le code de ce script dans votre projet : https://github.com/charroux/rent/blob/main/.github/workflows/action.yml
+
 Etudiez ce script et suivez son bon déreoulement chez Github. Si tout va bien, vous pourrez alors "merger" les branches chez Github.
 
 NE PAS OUBLIER de faire alors un 
