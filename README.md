@@ -78,3 +78,80 @@ git branch -D newcarservice
 git push origin --delete newcarservice
 ```
 
+## Tests unitaires avec JUnit
+
+### Qu'est-ce qu'un test unitaire ?
+
+Un test unitaire est un programme qui vérifie qu'une partie du code fonctionne correctement. C'est comme une mini-application de test qui :
+- Crée des données de test
+- Exécute du code
+- Vérifie que le résultat est correct
+
+**Pourquoi c'est important ?** Les tests permettent de trouver les bugs rapidement et de vérifier que chaque modification n'a pas cassé la fonctionnalité existante.
+
+### Structure des tests
+
+Dans ce projet, les tests sont organisés ainsi :
+```
+src/test/java/com/example/myservice/
+├── controllers/
+│   └── RentServiceRestTest.java    (Tests de l'API REST)
+├── entities/
+│   └── CarTest.java                (Tests du modèle Car)
+└── services/
+    └── CarServiceTest.java         (Tests du service métier)
+```
+
+### Exécuter les tests localement
+
+Sur votre machine, dans le dossier `MyService` :
+
+```bash
+./gradlew test
+```
+
+Les résultats seront affichés dans le terminal :
+- ✅ Tests réussis en vert
+- ❌ Tests échoués en rouge
+
+### Voir les résultats détaillés
+
+Les rapports complets sont générés dans :
+```
+build/reports/tests/test/index.html
+```
+
+Ouvrez ce fichier dans votre navigateur pour voir :
+- Quels tests ont réussi/échoué
+- Le détail des erreurs
+- La couverture de code
+
+### Tests automatiques avec GitHub Actions
+
+Chaque fois que vous faites un :
+- **Push** sur une branche
+- **Pull Request** 
+
+GitHub déclenche automatiquement les tests. Vous pouvez voir les résultats dans l'onglet **Actions** de votre repository.
+
+**Important** : Si les tests échouent, le code ne peut pas être fusionné ! Vous devez corriger les tests avant de faire un merge.
+
+### Exemple : Écrire un test simple
+
+Voici un exemple de test pour la classe `Car` :
+
+```java
+@Test
+public void testCarConstructor() {
+    Car car = new Car("ABC123", "Toyota", 15000.0);
+    assertEquals("ABC123", car.getPlateNumber());
+    assertEquals("Toyota", car.getBrand());
+    assertEquals(15000.0, car.getPrice());
+}
+```
+
+Ce test :
+1. Crée une voiture
+2. Vérifie que les propriétés sont correctes
+3. Si les assertions échouent, le test est rouge ❌
+
