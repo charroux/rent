@@ -32,4 +32,9 @@ public class RentServiceRest {
         return carService.getCar(plateNumber);
     }
 
+    @DeleteMapping("/cars/{plateNumber}")
+    public boolean deleteCar(@PathVariable String plateNumber){
+        return carService.deleteCar(plateNumber);
+    }
+
 }
