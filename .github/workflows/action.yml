@@ -29,8 +29,9 @@ jobs:
 
       - name: Build Java services
         run: |
+          cd ./MyService
           chmod +x gradlew
-          ./gradlew :MyService:build
+          ./gradlew build
 
       - name: Build Docker images
         run: |
