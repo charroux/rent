@@ -3,6 +3,7 @@ package com.example.myservice.controllers;
 import com.example.myservice.entities.Car;
 import com.example.myservice.services.CarService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
@@ -30,6 +31,16 @@ public class RentServiceRest {
     @GetMapping("/cars/{plateNumber}")
     public Car getCar(@PathVariable String plateNumber){
         return carService.getCar(plateNumber);
+    }
+
+    @DeleteMapping("/cars/{plateNumber}")
+    public ResponseEntity<Void> deleteCar(@PathVariable String plateNumber){
+        boolean removed = carService.removeCar(plateNumber);
+        if (removed) {
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
 }
