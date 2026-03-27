@@ -4,6 +4,14 @@
 
 https://github.com/charroux/rent/blob/main/MyService/Dockerfile
 
+Créer imaage Docker : 
+
+docker build -t votreimage .
+
+docker run -p 8080:8080 votreimage
+
+Tester dans votre navigateur
+
 
 # Collaborer à un projet : le concept du pull request
 
