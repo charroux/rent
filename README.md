@@ -138,7 +138,7 @@ GitHub déclenche automatiquement les tests. Vous pouvez voir les résultats dan
 
 ### Exemple : Écrire un test simple
 
-Voici un exemple de test pour la classe `Car` :
+Voici un exemple de test pour une classe `Car` :
 
 ```java
 @Test
