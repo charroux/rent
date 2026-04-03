@@ -43,6 +43,6 @@ jobs:
 
       - name: Build Docker images
         run: |
-          docker build -t myservice:latest -f vince/Dockerfile .
+          docker build -t myservice:latest -f vince/Dockerfile vince/
 
 
