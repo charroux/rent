@@ -1,7 +1,7 @@
 FROM gradle:8.7-jdk21 as builder
 WORKDIR /app
 COPY . .
-RUN ./gradle clean build -x test
+RUN ./gradlew clean build -x test
 
 # Runtime stage
 FROM eclipse-temurin:21-jre
