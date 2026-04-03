@@ -1,6 +1,7 @@
 FROM gradle:8.7-jdk21 as builder
 WORKDIR /app
 COPY . .
+RUN chmod +x gradlew
 RUN ./gradlew clean build -x test
 
 # Runtime stage
