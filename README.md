@@ -155,3 +155,86 @@ Ce test :
 2. Vérifie que les propriétés sont correctes
 3. Si les assertions échouent, le test est rouge ❌
 
+## Tests de l'API Web avec MockMvc
+
+### Qu'est-ce que MockMvc ?
+
+MockMvc est un framework de test Spring qui permet de tester les **endpoints REST** de votre application **sans démarrer un vrai serveur**. C'est une simulation qui :
+- Lance le contexte Spring de l'application
+- Simule les requêtes HTTP (GET, POST, PUT, DELETE, etc.)
+- Vérifie les réponses (status code, contenu JSON, headers, etc.)
+
+**Avantage** : Tests rapides et reproductibles sans besoin d'un serveur externe.
+
+### Structure d'un test MockMvc
+
+Chaque test MockMvc utilise :
+
+1. **@SpringBootTest** : Charge le contexte complet de l'application
+2. **WebApplicationContext** : Contexte web injecté pour MockMvc
+3. **MockMvcBuilders** : Construit une instance de MockMvc
+4. **perform()** : Simule une requête HTTP
+5. **andExpect()** : Vérifie la réponse
+
+### Exemple : Tester des endpoints REST
+
+Voici comment sont testés les endpoints dans `RentServiceRestTest.java` :
+
+**1. Tester l'ajout d'une voiture (POST)**
+```java
+@Test
+public void testAddCar() throws Exception {
+    Car car = new Car("ABC123", "Toyota", 15000.0);
+    ObjectMapper objectMapper = new ObjectMapper();
+    
+    mockMvc.perform(post("/cars")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(objectMapper.writeValueAsString(car)))
+            .andExpect(status().isOk());
+}
+```
+
+Ce test :
+- Crée une voiture avec les propriétés
+- Convertit l'objet en JSON avec `ObjectMapper`
+- Envoie une requête POST à `/cars`
+- Vérifie que la réponse HTTP est **200 OK**
+
+**2. Tester la récupération de voitures (GET)**
+```java
+@Test
+public void testGetCars() throws Exception {
+    mockMvc.perform(get("/cars"))
+            .andExpect(status().isOk());
+}
+```
+
+Ce test vérifie que l'endpoint GET `/cars` répond avec un status **200 OK**.
+
+**3. Tester la recherche par plaque (GET /cars/{id})**
+```java
+@Test
+public void testGetCarByPlateNumber() throws Exception {
+    mockMvc.perform(get("/cars/ABC123"))
+            .andExpect(status().isOk());
+}
+```
+
+### Vérifications possibles avec MockMvc
+
+Vous pouvez vérifier :
+- **status()** : Le code HTTP (200, 404, 500, etc.)
+- **content().contentType()** : Le type MIME (application/json, text/html, etc.)
+- **jsonPath()** : Le contenu JSON spécifique (`$.id`, `$.cars[0].brand`, etc.)
+- **header()** : Les en-têtes HTTP
+
+### Exécuter les tests web
+
+Les tests web sont exécutés de la même façon que les tests unitaires :
+
+```bash
+./gradlew test
+```
+
+Les résultats incluent à la fois les tests unitaires JUnit ET les tests MockMvc.
+

@@ -33,15 +33,9 @@ jobs:
           chmod +x gradlew
           ./gradlew test
 
-      - name: Publish Test Results
-        uses: EnricoMi/publish-unit-test-result-action@v2
-        if: always()
-        with:
-          files: |
-            MyService/build/test-results/**/*.xml
-
       - name: Build Docker images
         run: |
-          docker build -t myservice:latest -f MyService/Dockerfile .
+          cd ./MyService
+          docker build -t myservice:latest .
 
 
