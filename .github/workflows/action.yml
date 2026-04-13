@@ -38,8 +38,6 @@ jobs:
         uses: SonarSource/sonarcloud-github-action@master
         with:
           args: >
-            -Dsonar.projectKey=myservice
-            -Dsonar.organization=${{ secrets.SONAR_ORGANIZATION }}
             -Dsonar.sources=./MyService/src/main
             -Dsonar.tests=./MyService/src/test
             -Dsonar.coverage.jacoco.xmlReportPaths=./MyService/build/reports/jacoco/test/jacocoTestReport.xml
