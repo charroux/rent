@@ -3,6 +3,14 @@ plugins {
 	id 'org.springframework.boot' version '3.2.0'
 	id 'io.spring.dependency-management' version '1.1.4'
 	id 'jacoco'
+	id "org.sonarqube" version "7.2.3.7755"
+}
+
+sonar {
+  properties {
+    property "sonar.projectKey", "charroux_rent"
+    property "sonar.organization", "benoit-charroux"
+  }
 }
 
 group = 'com.example'
