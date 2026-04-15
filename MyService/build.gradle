@@ -33,18 +33,9 @@ jacoco {
 	toolVersion = "0.8.10"
 }
 
-task jacocoTestReport(type: JacocoReport, dependsOn: test) {
+tasks.named('jacocoTestReport') {
 	reports {
 		xml.required = true
 		html.required = true
-	}
-	afterEvaluate {
-		classDirs.setFrom(files(classDirectories.files.collect {
-			fileTree(dir: it, exclude: [
-				'**/config/**',
-				'**/entity/**',
-				'**/dto/**'
-			])
-		}))
 	}
 }
