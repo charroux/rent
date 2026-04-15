@@ -38,11 +38,4 @@ tasks.named('jacocoTestReport') {
 		xml.required = true
 		html.required = true
 	}
-	classDirs.setFrom(files(classDirectories.files.collect {
-		fileTree(dir: it, exclude: [
-			'**/config/**',
-			'**/entity/**',
-			'**/dto/**'
-		])
-	}))
 }
