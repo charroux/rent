@@ -394,12 +394,63 @@ Le projet est configuré pour afficher des **statuts de qualité** directement d
 
 ### Configuration du projet
 
+#### Organisation GitHub vs SonarCloud
+
+- **Organisation GitHub** : `benoit-charroux` (votre compte d'organisation sur GitHub)
+- **Organisation SonarCloud** : `benoit-charroux-1` (créée automatiquement lors de la liaison avec GitHub)
+
+Ces deux organisations sont **liées automatiquement** grâce à l'authentification GitHub. SonarCloud a besoin d'une organisation distincte pour gérer les permissions et les projets.
+
+#### Fichiers de configuration
+
+La configuration SonarCloud se trouve dans deux fichiers :
+
+1. **[MyService/build.gradle](MyService/build.gradle)** - Configuration SonarQube/Gradle
+   - Clé du projet : `benoit-charroux_rent`
+   - Organisation SonarCloud : `benoit-charroux-1`
+   - URL hôte : `https://sonarcloud.io`
+   - Chemins source/test et rapport JaCoCo
+
+2. **[.github/workflows/action.yml](.github/workflows/action.yml)** - Workflow GitHub Actions
+   - Lance l'analyse SonarCloud automatiquement à chaque push/PR
+   - Exécute les tests et génère le rapport JaCoCo
+   - Envoie les résultats à SonarCloud via le `SONAR_TOKEN`
+
+#### Initialiser le SONAR_TOKEN
+
+**Important** : Le `SONAR_TOKEN` est un secret nécessaire pour que GitHub Actions puisse envoyer les résultats à SonarCloud.
+
+**Procédure :**
+
+1. **Générer le token dans SonarCloud**
+   - Allez sur https://sonarcloud.io
+   - Cliquez sur votre profil (coin supérieur droit) → **Security**
+   - Sous **Generate Tokens**, cliquez **Generate**
+   - Donnez-lui un nom (ex: `github-rent`)
+   - **Copiez le token** (vous ne pourrez pas le revoir après)
+
+2. **Ajouter le secret à GitHub**
+   - Allez sur https://github.com/benoit-charroux/rent
+   - **Settings** → **Secrets and variables** → **Actions**
+   - Cliquez **New repository secret**
+   - **Name** : `SONAR_TOKEN`
+   - **Value** : Collez le token SonarCloud
+   - Cliquez **Add secret**
+
+3. **Vérifier que c'est fonctionnel**
+   - Faites un `git push` sur une branche
+   - Allez dans **Actions** et vérifiez que le workflow s'exécute
+   - L'étape **Build and analyze** doit réussir
+   - Allez sur [SonarCloud Dashboard](https://sonarcloud.io/organizations/benoit-charroux-1) pour voir l'analyse
+
+#### Technologies utilisées
+
 Ce projet utilise :
-- **SonarCloud Cloud** : Hébergement sur le cloud
-- **Organisation** : `benoit-charroux-1`
+- **SonarCloud Cloud** : Hébergement sur le cloud (gratuit pour les projets open-source)
+- **Organisation SonarCloud** : `benoit-charroux-1`
 - **Clé du projet** : `benoit-charroux_rent`
-- **Intégration GitHub** : Rapports automatiques dans les PRs
-- **JaCoCo + SonarQube** : Analyse de la couverture et de la qualité
+- **Intégration GitHub** : Rapports automatiques dans les PRs et checks
+- **JaCoCo + SonarQube** : Analyse complète de la couverture et de la qualité
 
 ### Ressources utiles
 
