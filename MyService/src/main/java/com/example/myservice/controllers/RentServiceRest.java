@@ -7,27 +7,26 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@RequestMapping("/cars")
 public class RentServiceRest {
 
-    @Autowired
-    private CarService carService;
+    private final CarService carService;
 
-    @GetMapping("/")
-    public String sayHello(){
-        return "Hello";
+    public RentServiceRest(CarService carService) {
+        this.carService = carService;
     }
 
-    @PostMapping("/cars")
+    @PostMapping()
     public void addCar(@RequestBody Car car){
         carService.addCar(car);
     }
 
-    @GetMapping("/cars")
+    @GetMapping()
     public List<Car> getCars(){
         return carService.getCars();
     }
 
-    @GetMapping("/cars/{plateNumber}")
+    @GetMapping("/{plateNumber}")
     public Car getCar(@PathVariable String plateNumber){
         return carService.getCar(plateNumber);
     }

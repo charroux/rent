@@ -1,6 +1,7 @@
 package com.example.myservice.entities;
 
 public class Car {
+
     private String plateNumber;
     private String brand;
     private double price;

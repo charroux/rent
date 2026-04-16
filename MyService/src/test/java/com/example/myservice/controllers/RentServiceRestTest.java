@@ -16,8 +16,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 public class RentServiceRestTest {
 
-    @Autowired
-    private WebApplicationContext webApplicationContext;
+    private final WebApplicationContext webApplicationContext;
+
+    public RentServiceRestTest(WebApplicationContext webApplicationContext) {
+        this.webApplicationContext = webApplicationContext;
+    }
 
     private MockMvc mockMvc;
 
@@ -39,7 +42,7 @@ public class RentServiceRestTest {
 
     @Test
     public void testGetCars() throws Exception {
-        // Ajouter une voiture d'abord
+
         Car car1 = new Car("ABC123", "Toyota", 15000.0);
         ObjectMapper objectMapper = new ObjectMapper();
         mockMvc.perform(post("/cars")
@@ -55,7 +58,6 @@ public class RentServiceRestTest {
         Car car = new Car("ABC123", "Toyota", 15000.0);
         ObjectMapper objectMapper = new ObjectMapper();
         
-        // Ajouter une voiture d'abord
         mockMvc.perform(post("/cars")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(car)));
