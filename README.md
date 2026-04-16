@@ -320,3 +320,90 @@ Ce projet est configuré pour :
 - Uploader automatiquement vers Codecov en CI/CD
 - Exclure certaines zones (config, entities, DTOs) de la couverture pour plus de clarté
 
+## Qualité du code avec SonarCloud
+
+### Qu'est-ce que SonarCloud ?
+
+**SonarCloud** est une plateforme cloud qui analyse la **qualité du code** en continu. Elle détecte :
+- **Bugs** : Erreurs potentielles et code défectueux
+- **Vulnérabilités de sécurité** : Failles de sécurité connues
+- **Code smells** : Mauvaises pratiques et code difficile à maintenir
+- **Duplications** : Code dupliqué inutile
+- **Couverture de tests** : Intégration avec JaCoCo
+
+### Comment fonctionne SonarCloud ?
+
+À chaque **push** ou **pull request**, le workflow GitHub Actions :
+
+1. Exécute les tests avec JaCoCo (comme vu précédemment)
+2. Lance l'analyse SonarQube
+3. Envoie les résultats à SonarCloud
+4. Ajoute un rapport de qualité à votre PR
+
+### Consulter les résultats sur SonarCloud
+
+1. Allez sur https://sonarcloud.io
+2. Connectez-vous avec votre compte GitHub
+3. Sélectionnez l'organisation `benoit-charroux` et le projet `rent`
+4. Vous verrez un **dashboard complet** avec :
+
+**Métriques principales :**
+- 📊 **Reliability** (Fiabilité) : Nombre de bugs détectés
+- 🔒 **Security** (Sécurité) : Vulnérabilités et hotspots de sécurité
+- 🧹 **Maintainability** (Maintenabilité) : Code smells et dettes techniques
+- ✅ **Coverage** (Couverture) : Pourcentage de code testé (issu de JaCoCo)
+- 🔄 **Duplications** : Pourcentage de code dupliqué
+
+**Détails par fichier :**
+- Cliquez sur **Issues** pour voir tous les problèmes identifiés
+- Filtrez par sévérité : 🔴 Critical, 🟠 Major, 🟡 Minor, ℹ️ Info
+- Consultez les **Pull Requests** pour voir l'historique des analyses
+
+### Interpréter un rapport SonarCloud
+
+**Exemple de qualité :**
+- 🟢 **A** : Excellent, très peu de problèmes
+- 🟢 **B** : Bon, quelques problèmes à corriger
+- 🟡 **C** : Acceptable, mais besoin d'améliorations
+- 🟠 **D** : Faible, plusieurs problèmes
+- 🔴 **E** : Mauvais, nombreux problèmes
+
+### Activer SonarCloud pour les Pull Requests
+
+Le projet est configuré pour afficher des **statuts de qualité** directement dans les PRs :
+
+1. Ouvrez une **Pull Request** sur GitHub
+2. Descendez jusqu'à **Checks**
+3. Vous verrez **SonarCloud Code Analysis**
+4. Le statut peut être :
+   - ✅ **Passed** : La qualité du code est acceptable
+   - ❌ **Failed** : Des problèmes de sécurité ou de qualité critiques ont été détectés
+
+### Bonnes pratiques pour la qualité
+
+✅ **À faire :**
+- Viser une note **A** ou **B** minimum
+- Corriger les vulnérabilités de sécurité avant le merge
+- Revoir les **bugs critiques** et **majeurs**
+- Maintenir la couverture de tests **≥ 80%**
+
+❌ **À éviter :**
+- Merger une PR avec des **issues critiques de sécurité**
+- Ignorer les rapports SonarCloud
+- Augmenter la dette technique sans limite
+
+### Configuration du projet
+
+Ce projet utilise :
+- **SonarCloud Cloud** : Hébergement sur le cloud
+- **Organisation** : `benoit-charroux-1`
+- **Clé du projet** : `benoit-charroux_rent`
+- **Intégration GitHub** : Rapports automatiques dans les PRs
+- **JaCoCo + SonarQube** : Analyse de la couverture et de la qualité
+
+### Ressources utiles
+
+- 🌐 [SonarCloud Dashboard](https://sonarcloud.io/organizations/benoit-charroux-1)
+- 📖 [Documentation SonarCloud](https://docs.sonarcloud.io/)
+- 🔐 [Règles de sécurité](https://rules.sonarsource.com/java/)
+
