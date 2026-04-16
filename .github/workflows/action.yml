@@ -53,8 +53,13 @@ jobs:
           restore-keys: ${{ runner.os }}-gradle
       - name: Build and analyze
         env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: ./gradlew build sonar --info          
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}     
+        run: |
+          cd ./MyService
+          chmod +x gradlew
+          ./gradlew build sonar --info     
+
+
       - name: Build Docker images
         run: |
           cd ./MyService
