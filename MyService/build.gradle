@@ -2,6 +2,7 @@ plugins {
 	id 'java'
 	id 'org.springframework.boot' version '3.2.0'
 	id 'io.spring.dependency-management' version '1.1.4'
+	id 'jacoco'
 }
 
 group = 'com.example'
@@ -25,4 +26,16 @@ dependencies {
 
 tasks.named('test') {
 	useJUnitPlatform()
+	finalizedBy jacocoTestReport
+}
+
+jacoco {
+	toolVersion = "0.8.10"
+}
+
+tasks.named('jacocoTestReport') {
+	reports {
+		xml.required = true
+		html.required = true
+	}
 }

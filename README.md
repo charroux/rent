@@ -138,7 +138,7 @@ GitHub déclenche automatiquement les tests. Vous pouvez voir les résultats dan
 
 ### Exemple : Écrire un test simple
 
-Voici un exemple de test pour la classe `Car` :
+Voici un exemple de test pour une classe `Car` :
 
 ```java
 @Test
@@ -154,4 +154,169 @@ Ce test :
 1. Crée une voiture
 2. Vérifie que les propriétés sont correctes
 3. Si les assertions échouent, le test est rouge ❌
+
+## Tests de l'API Web avec MockMvc
+
+### Qu'est-ce que MockMvc ?
+
+MockMvc est un framework de test Spring qui permet de tester les **endpoints REST** de votre application **sans démarrer un vrai serveur**. C'est une simulation qui :
+- Lance le contexte Spring de l'application
+- Simule les requêtes HTTP (GET, POST, PUT, DELETE, etc.)
+- Vérifie les réponses (status code, contenu JSON, headers, etc.)
+
+**Avantage** : Tests rapides et reproductibles sans besoin d'un serveur externe.
+
+### Structure d'un test MockMvc
+
+Chaque test MockMvc utilise :
+
+1. **@SpringBootTest** : Charge le contexte complet de l'application
+2. **WebApplicationContext** : Contexte web injecté pour MockMvc
+3. **MockMvcBuilders** : Construit une instance de MockMvc
+4. **perform()** : Simule une requête HTTP
+5. **andExpect()** : Vérifie la réponse
+
+### Exemple : Tester des endpoints REST
+
+Voici comment sont testés les endpoints dans `RentServiceRestTest.java` :
+
+**1. Tester l'ajout d'une voiture (POST)**
+```java
+@Test
+public void testAddCar() throws Exception {
+    Car car = new Car("ABC123", "Toyota", 15000.0);
+    ObjectMapper objectMapper = new ObjectMapper();
+    
+    mockMvc.perform(post("/cars")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(objectMapper.writeValueAsString(car)))
+            .andExpect(status().isOk());
+}
+```
+
+Ce test :
+- Crée une voiture avec les propriétés
+- Convertit l'objet en JSON avec `ObjectMapper`
+- Envoie une requête POST à `/cars`
+- Vérifie que la réponse HTTP est **200 OK**
+
+**2. Tester la récupération de voitures (GET)**
+```java
+@Test
+public void testGetCars() throws Exception {
+    mockMvc.perform(get("/cars"))
+            .andExpect(status().isOk());
+}
+```
+
+Ce test vérifie que l'endpoint GET `/cars` répond avec un status **200 OK**.
+
+**3. Tester la recherche par plaque (GET /cars/{id})**
+```java
+@Test
+public void testGetCarByPlateNumber() throws Exception {
+    mockMvc.perform(get("/cars/ABC123"))
+            .andExpect(status().isOk());
+}
+```
+
+### Vérifications possibles avec MockMvc
+
+Vous pouvez vérifier :
+- **status()** : Le code HTTP (200, 404, 500, etc.)
+- **content().contentType()** : Le type MIME (application/json, text/html, etc.)
+- **jsonPath()** : Le contenu JSON spécifique (`$.id`, `$.cars[0].brand`, etc.)
+- **header()** : Les en-têtes HTTP
+
+### Exécuter les tests web
+
+Les tests web sont exécutés de la même façon que les tests unitaires :
+
+```bash
+./gradlew test
+```
+
+Les résultats incluent à la fois les tests unitaires JUnit ET les tests MockMvc.
+
+## Couverture de code avec JaCoCo et Codecov
+
+### Qu'est-ce que la couverture de code ?
+
+La couverture de code mesure le **pourcentage de votre code source qui est testé**. C'est une métrique importante pour :
+- Identifier les parties du code non testées
+- Déterminer les zones à risque
+- Améliorer la qualité générale du projet
+
+### Comment fonctionne JaCoCo ?
+
+**JaCoCo** (Java Code Coverage) est un outil qui :
+1. Analyse l'exécution des tests
+2. Enregistre quelles lignes de code sont exécutées
+3. Génère un rapport de couverture en HTML et XML
+
+### Générer un rapport de couverture localement
+
+Sur votre machine, dans le dossier `MyService` :
+
+```bash
+./gradlew test jacocoTestReport
+```
+
+Cela exécute tous les tests ET génère un rapport JaCoCo. Le rapport complet est accessible à :
+```
+build/reports/jacoco/test/html/index.html
+```
+
+Ouvrez ce fichier dans votre navigateur pour voir :
+- **Couverture globale** : Pourcentage total de code couvert
+- **Par classe** : Détails pour chaque classe
+- **Par méthode** : Quelles lignes sont couvertes/non couvertes
+
+### Codecov et GitHub Actions
+
+**Codecov** est une plateforme qui agrège et visualise les rapports de couverture. À chaque **push** ou **pull request**, le workflow GitHub Actions automatiquement :
+
+1. Exécute les tests avec JaCoCo
+2. Télécharge le rapport vers Codecov
+3. Ajoute un commentaire à votre PR avec :
+   - Le pourcentage de couverture global
+   - Les modifications de couverture par rapport à main
+   - Des badges indiquant la santé du code
+
+### Consulter les résultats sur Codecov
+
+1. Allez sur https://app.codecov.io
+2. Connectez-vous avec votre compte GitHub
+3. Sélectionnez le repository `rent`
+4. Vous verrez :
+   - L'historique de la couverture
+   - Les fichiers avec la meilleure/pire couverture
+   - Les comparaisons entre branches
+
+### Interpréter le rapport
+
+**Exemple de couverture JaCoCo :**
+- 🟢 **90-100%** : Très bon, presque tout est testé
+- 🟡 **70-89%** : Acceptable, mais des zones non testées
+- 🔴 **< 70%** : À risque, besoin d'ajouter des tests
+
+### Bonnes pratiques
+
+✅ **À faire :**
+- Viser une couverture **≥ 80%** en production
+- Tester les cas de succès ET les cas d'erreur
+- Exclure les codes générés (`getter/setter`, configurations, etc.)
+- Réviser les parties non couvertes lors des PRs
+
+❌ **À éviter :**
+- Augmenter la couverture artificiellement avec des tests inutiles
+- Viser 100% de couverture (rarement réaliste)
+- Tester uniquement les "happy paths"
+
+### Configuration du projet
+
+Ce projet est configuré pour :
+- Générer des rapports **XML** et **HTML** avec JaCoCo
+- Uploader automatiquement vers Codecov en CI/CD
+- Exclure certaines zones (config, entities, DTOs) de la couverture pour plus de clarté
 
