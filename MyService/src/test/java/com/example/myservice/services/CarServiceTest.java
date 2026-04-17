@@ -47,6 +47,14 @@ public class CarServiceTest {
     }
 
     @Test
+    public void testDeleteCar() {
+        Car car = new Car("ABC123", "Toyota", 15000.0);
+        carService.addCar(car);
+        carService.deleteCar("ABC123");
+        assertNull(carService.getCar("ABC123"));
+    }
+
+    @Test
     public void testAddMultipleCars() {
         Car car1 = new Car("ABC123", "Toyota", 15000.0);
         Car car2 = new Car("XYZ789", "Honda", 18000.0);
