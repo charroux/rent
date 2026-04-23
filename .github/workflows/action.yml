@@ -44,4 +44,7 @@ jobs:
         run: |
           docker build -t myservice:latest -f Tp1-devops/Dockerfile Tp1-devops/
 
-
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v5
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
