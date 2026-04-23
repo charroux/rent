@@ -43,8 +43,8 @@ tasks.named('jacocoTestReport') {
 
 sonar {
   properties {
-    property "sonar.projectKey", "benoit-charroux_rent"
-    property "sonar.organization", "benoit-charroux-1"
+    property "sonar.projectKey", "herad-au_rent-devops"
+	property "sonar.organization", "herad-au"
     property "sonar.host.url", "https://sonarcloud.io"
     property "sonar.sources", "src/main/java"
     property "sonar.tests", "src/test/java"
