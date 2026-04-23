@@ -46,12 +46,14 @@ jobs:
           path: ~/.sonar/cache
           key: ${{ runner.os }}-sonar
           restore-keys: ${{ runner.os }}-sonar
+
       - name: Cache Gradle packages
         uses: actions/cache@v4
         with:
           path: ~/.gradle/caches
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
           restore-keys: ${{ runner.os }}-gradle
+
       - name: Build and analyze
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -60,13 +62,7 @@ jobs:
         run: |
           cd ./MyService
           chmod +x gradlew
-          ./gradlew build sonar --info
-
-
-      - name: Build Docker images
-        run: |
-          cd ./MyService
-          docker build -t myservice:latest .
+          ./gradlew build sonar --info -Dsonar.organization=herad-au
 
       # - name: Run Tests
       #   run: |
