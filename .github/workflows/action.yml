@@ -54,7 +54,7 @@ jobs:
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
           restore-keys: ${{ runner.os }}-gradle
 
-      - name: Build and analyze
+      - name: Build, Test and Analyze
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_HOST_URL: https://sonarcloud.io
@@ -62,7 +62,7 @@ jobs:
         run: |
           cd ./MyService
           chmod +x gradlew
-          ./gradlew build sonar --info -Dsonar.organization=herad-au
+          ./gradlew test jacocoTestReport sonar --rerun-tasks 
 
       # - name: Run Tests
       #   run: |
